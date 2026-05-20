@@ -56,6 +56,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TicketResponse> findAll(UserDetails currentUser) {
         User user = getUser(currentUser.getUsername());
 
@@ -69,6 +70,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public TicketResponse findById(Long id, UserDetails currentUser) {
         Ticket ticket = getTicket(id);
         User user = getUser(currentUser.getUsername());
@@ -159,24 +161,28 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TicketResponse> findByStatus(TicketStatus status) {
         return ticketRepository.findByStatus(status).stream()
                 .map(this::mapToResponse).toList();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TicketResponse> findByPriority(Priority prioridad) {
         return ticketRepository.findByPrioridad(prioridad).stream()
                 .map(this::mapToResponse).toList();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TicketResponse> findSinAsignar() {
         return ticketRepository.findTicketsSinAsignar().stream()
                 .map(this::mapToResponse).toList();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TicketResponse> findMisTickets(UserDetails currentUser) {
         User user = getUser(currentUser.getUsername());
         if (user.getRole() == Role.TECNICO) {

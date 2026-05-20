@@ -3,6 +3,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import MainLayout from "./layouts/MainLayout";
 import LoginPage from "./pages/login/page";
 import DashboardPage from "./pages/dashboard/page";
+import TicketsPage from "./pages/tickets/page";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Route element={<PrivateRoute />}>
         <Route element={<MainLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/tickets" element={<TicketsPage />} />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Route>
       </Route>
