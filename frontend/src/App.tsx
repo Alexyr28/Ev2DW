@@ -4,6 +4,7 @@ import MainLayout from "./layouts/MainLayout";
 import LoginPage from "./pages/login/page";
 import DashboardPage from "./pages/dashboard/page";
 import TicketsPage from "./pages/tickets/page";
+import CreateTicketForm from "./pages/tickets/CreateTicketForm";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/tickets" element={<TicketsPage />} />
+          <Route path="/tickets/nuevo" element={<CreateTicketForm />} />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Route>
       </Route>

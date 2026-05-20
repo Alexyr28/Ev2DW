@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { ticketsApi, type TicketStatus, type Priority } from "../../api/tickets";
 
@@ -77,13 +78,21 @@ export default function TicketsPage() {
             {isLoading ? "Cargando…" : `${filtered.length} resultado(s)`}
           </p>
         </div>
-        <button
-          onClick={() => refetch()}
-          disabled={isLoading}
-          className="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-50 transition-colors"
-        >
-          Refrescar
-        </button>
+        <div className="flex gap-2">
+          <Link
+            to="/tickets/nuevo"
+            className="rounded-lg bg-blue-600 px-4 py-2 text-sm text-white font-medium hover:bg-blue-700 transition-colors"
+          >
+            + Nuevo ticket
+          </Link>
+          <button
+            onClick={() => refetch()}
+            disabled={isLoading}
+            className="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-50 transition-colors"
+          >
+            Refrescar
+          </button>
+        </div>
       </div>
 
       <div className="flex flex-wrap gap-3">
