@@ -44,17 +44,28 @@ export default function TicketsPage() {
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<TicketStatus | "">("");
   const [filterPriority, setFilterPriority] = useState<Priority | "">("");
+  const [filterCategoria, setFilterCategoria] = useState<string>("");
 
   const { data: tickets = [], isLoading, isError, error, refetch } = useQuery({
     queryKey: ["tickets"],
     queryFn: ticketsApi.getAll,
   });
 
+  const categorias = Array.from(
+    new Map(
+      tickets
+        .filter((t) => t.categoriaId !== null)
+        .map((t) => [t.categoriaId, t.categoriaNombre!])
+    ).entries()
+  );
+
   const filtered = tickets.filter((t) => {
     const matchSearch = t.titulo.toLowerCase().includes(search.toLowerCase());
     const matchStatus = !filterStatus || t.status === filterStatus;
     const matchPriority = !filterPriority || t.prioridad === filterPriority;
-    return matchSearch && matchStatus && matchPriority;
+    const matchCategoria =
+      !filterCategoria || String(t.categoriaId) === filterCategoria;
+    return matchSearch && matchStatus && matchPriority && matchCategoria;
   });
 
   return (
@@ -101,6 +112,16 @@ export default function TicketsPage() {
           <option value="">Todas las prioridades</option>
           {(Object.keys(PRIORITY_LABELS) as Priority[]).map((p) => (
             <option key={p} value={p}>{PRIORITY_LABELS[p]}</option>
+          ))}
+        </select>
+        <select
+          value={filterCategoria}
+          onChange={(e) => setFilterCategoria(e.target.value)}
+          className="rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">Todas las categorías</option>
+          {categorias.map(([id, nombre]) => (
+            <option key={id} value={String(id)}>{nombre}</option>
           ))}
         </select>
       </div>
